@@ -8,6 +8,7 @@
 
 #include "opt/phys_2d.h"
 #include "opt/render_2d.h"
+#include "opt/ui.h"
 
 int main() {
 	OS_Init();
@@ -21,9 +22,6 @@ int main() {
 	vec2 corrected_position = { OS_InputGetMouseX(), OS_InputGetMouseY() };
 	
 	P2D_Collider* a = P2D_ColliderAllocAARect(global_arena, (rect) { 200, 200, 100, 100 });
-	/*P2D_Collider* a = P2D_ColliderAllocCircle(global_arena, (vec2) { 200, 200 }, 50);
-	P2D_Collider* b = P2D_ColliderAllocAARect(global_arena, (rect) { actual_position.x, actual_position.y,
-												  100, 100 });*/
 	P2D_Collider* b = P2D_ColliderAllocCircle(global_arena, actual_position, 25);
 	
 	OS_Window* window = OS_WindowCreate(1080, 720, str_lit("This should work"));
@@ -32,6 +30,9 @@ int main() {
 	
 	R2D_Renderer renderer = {0};
 	R2D_Init(window, &renderer);
+	
+	UI_State ui = {0};
+	UI_Init(window, &ui);
 	
 	while (OS_WindowIsOpen(window)) {
 		OS_PollEvents();
@@ -45,13 +46,7 @@ int main() {
 		R_Clear(BufferMask_Color);
 		
 		R2D_BeginDraw(&renderer);
-		//R2D_DrawCircle(&renderer, (vec2) { 200, 200 }, 50, Color_Red);
 		R2D_DrawQuadC(&renderer, (rect) { 200, 200, 100, 100 }, Color_Red);
-		/*R2D_DrawQuadC(&renderer, (rect) { actual_position.x - 50, actual_position.y - 50, 100, 100 },
-					  P2D_CheckCollision(a, b) ? Color_Blue : Color_Green);
-		R2D_DrawQuadC(&renderer, (rect) { corrected_position.x - 50, corrected_position.y - 50, 100, 100 },
-					  Color_Green);*/
-		
 		R2D_DrawCircle(&renderer, actual_position, 25,P2D_CheckCollision(a, b) ? Color_Blue : Color_Green);
 		R2D_DrawCircle(&renderer, corrected_position, 25, Color_Green);
 		
@@ -61,10 +56,13 @@ int main() {
 		R2D_DrawPolygonWireframe(&renderer, ab_resolver.simplex_verts, ab_resolver.simplex_vert_count, Color_Magenta);
 		R2D_EndDraw(&renderer);
 		
-		//free(ab_resolver.simplex_verts);
+		UI_BeginDraw(&ui);
+		UI_EndDraw(&ui);
 		
 		B_BackendSwapchainNext(window);
 	}
+	
+	UI_Free(&ui);
 	
 	B_BackendFree(window);
 	

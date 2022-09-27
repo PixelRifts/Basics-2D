@@ -1,6 +1,6 @@
 version(1);
 
-project_name = "Codebase";
+project_name = "Basics 2D";
 
 patterns = {
 	"*.c",
@@ -21,6 +21,8 @@ blacklist_patterns = {
 load_paths_custom = {
 	{ "./source" },
 	{ "./third_party/include/KHR" },
+	{ "./third_party/include/cimgui" },
+	{ "./third_party/include/imgui" },
 	{ "./third_party/include/md" },
 	{ "./third_party/include/stb" },
 	{ "./third_party/source" },
@@ -54,7 +56,19 @@ command_list = {
 			{ "bin\codebase.exe", .os = "win" },
 		},
 	},
+	{
+		.name = "build_libs",
+		.out = "*compilation*",
+		.footer_panel = true,
+		.save_dirty_files = true,
+		.cursor_at_end = true,
+		.cmd =
+		{
+			{ "build_libs.bat", .os = "win" },
+		},
+	},
 };
 
 fkey_command[1] = "build";
 fkey_command[2] = "run";
+fkey_command[9] = "build_libs";
