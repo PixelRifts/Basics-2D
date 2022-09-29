@@ -6,6 +6,10 @@
 #include "os/win32_window.h"
 #include "os/input.h"
 
+// TODO: Jank
+#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
+#include <cimgui/cimgui.h>
+CIMGUI_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static void CALLBACK OS_PollEvents_Fiber(W32_Window* param);
 
@@ -135,6 +139,8 @@ static void DefaultResizeCallback(OS_Window* _window, i32 w, i32 h) {
 
 static LRESULT CALLBACK Win32Proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam) {
 	LRESULT result = 0;
+	
+	ImGui_ImplWin32_WndProcHandler(window, msg, wparam, lparam);
 	
 	OS_Window* os_window = (OS_Window*) GetWindowLongPtr(window, GWLP_USERDATA);
 	

@@ -18,6 +18,6 @@ void UI_Init(OS_Window* window, UI_State* state);
 void UI_Free(UI_State* state);
 
 void UI_BeginDraw(UI_State* state);
-void UI_EndDraw(UI_State* state);
+void UI_EndDraw(OS_Window* window, UI_State* state);
 
 #endif //UI_H

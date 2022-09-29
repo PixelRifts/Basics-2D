@@ -10,6 +10,9 @@
 #include "opt/render_2d.h"
 #include "opt/ui.h"
 
+#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
+#include <cimgui/cimgui.h>
+
 int main() {
 	OS_Init();
 	
@@ -53,11 +56,15 @@ int main() {
 		
 		R2D_DrawLineC(&renderer, b->center_pos, vec2_add(b->center_pos, ab_resolver.resolution), 5, Color_Green);
 		R2D_DrawCircle(&renderer, (vec2) { 540, 360 }, 1, Color_Magenta);
-		R2D_DrawPolygonWireframe(&renderer, ab_resolver.simplex_verts, ab_resolver.simplex_vert_count, Color_Magenta);
 		R2D_EndDraw(&renderer);
 		
 		UI_BeginDraw(&ui);
-		UI_EndDraw(&ui);
+		
+		igBegin("TEST", nullptr, 0);
+		igText("Blah");
+		igEnd();
+		
+		UI_EndDraw(window, &ui);
 		
 		B_BackendSwapchainNext(window);
 	}

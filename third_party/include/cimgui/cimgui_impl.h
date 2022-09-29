@@ -59,6 +59,11 @@ CIMGUI_API bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event);
 
 #endif
 #ifdef CIMGUI_USE_WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <userenv.h>
+#undef WIN32_LEAN_AND_MEAN
+
 CIMGUI_API bool ImGui_ImplWin32_Init(void* hwnd);
 CIMGUI_API void ImGui_ImplWin32_Shutdown(void);
 CIMGUI_API void ImGui_ImplWin32_NewFrame(void);
@@ -66,5 +71,6 @@ CIMGUI_API void ImGui_ImplWin32_EnableDpiAwareness(void);
 CIMGUI_API float ImGui_ImplWin32_GetDpiScaleForHwnd(void* hwnd);
 CIMGUI_API float ImGui_ImplWin32_GetDpiScaleForMonitor(void* monitor);
 CIMGUI_API void ImGui_ImplWin32_EnableAlphaCompositing(void* hwnd);
+CIMGUI_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif
