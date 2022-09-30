@@ -20,7 +20,6 @@ void UI_Init(OS_Window* _window, UI_State* state) {
 	state->io = igGetIO();
 	state->io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	state->io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	state->io->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	
 	const char* glsl_version = "#version 330 core";
 	ImGui_ImplWin32_Init((void*)window->handle);
@@ -39,20 +38,9 @@ void UI_BeginDraw(UI_State* state) {
 	ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplWin32_NewFrame();
     igNewFrame();
-	
-	igSetNextWindowPos((struct ImVec2){0,0}, ImGuiCond_FirstUseEver,(struct ImVec2){0,0}); 
-	igShowDemoWindow(NULL);
 }
 
 void UI_EndDraw(OS_Window* curr, UI_State* state) {
 	igRender();
 	ImGui_ImplOpenGL3_RenderDrawData(igGetDrawData());
-	
-	if (state->io->ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		// TODO
-		igUpdatePlatformWindows();
-		igRenderPlatformWindowsDefault(nullptr, nullptr);
-		B_BackendSelectRenderWindow(curr);
-	}
 }

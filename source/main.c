@@ -9,6 +9,7 @@
 #include "opt/phys_2d.h"
 #include "opt/render_2d.h"
 #include "opt/ui.h"
+#include "editor.h"
 
 #define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
 #include <cimgui/cimgui.h>
@@ -58,12 +59,13 @@ int main() {
 		R2D_DrawCircle(&renderer, (vec2) { 540, 360 }, 1, Color_Magenta);
 		R2D_EndDraw(&renderer);
 		
+		
 		UI_BeginDraw(&ui);
-		
-		igBegin("TEST", nullptr, 0);
-		igText("Blah");
+		Editor_ImGUI(&ui);
+		igBegin("Yeet", nullptr, 0);
+		static bool boop = false;
+		igRadioButton_Bool("Blah", boop);
 		igEnd();
-		
 		UI_EndDraw(window, &ui);
 		
 		B_BackendSwapchainNext(window);
